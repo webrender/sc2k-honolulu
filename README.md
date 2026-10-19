@@ -28,8 +28,8 @@ piece.
     look like SimCity 2000.
 - **The tools** (`tools/`) that build all of this from the map data and from your own copy of the game.
 
-The repository contains no game files. The tile sets reuse and recolour the game's own sprites, so they are
-built on your machine from your installed copy.
+The repository contains no game files. The tile sets reuse and recolour the game's own sprites. Prebuilt copies
+are in [`dist/`](dist), and the installer can also build them from your installed copy.
 
 ## What you need
 
@@ -80,6 +80,19 @@ down and redevelop them. To show the landmarks, the diorama tile set redraws som
 ```
 
 Open or start any city, then load `SCURKART\TROPICAL.MIF` from the tile-set menu.
+
+### Quick install of the play tile set
+
+To try `TROPICAL.MIF` without building anything, copy the prebuilt file from `dist/` into the game's `SCURKART`
+folder. Then apply the bead palette and play mode, with the game closed:
+
+```bash
+.venv/Scripts/python tools/patch_game.py "C:/Games/SC2K" --play
+```
+
+`dist/WAIKIKI.MIF` is there too, but the diorama also needs the city, `WAIKIKI.SC2`, which the installer
+builds. Both prebuilt sets are drawn for the bead palette `patch_game.py` writes from the Windows 95 Special
+Edition's own palette. Without that palette, their colours are wrong.
 
 ### Switching between the two
 
@@ -133,4 +146,5 @@ the installer. See [docs/TECHNICAL.md](docs/TECHNICAL.md) for how the map, sprit
 - Bead colours from the [pixel-beads.com Perler chart](https://www.pixel-beads.com/perler-bead-color-chart).
 - File formats from [dfloer/SC2k-docs](https://github.com/dfloer/SC2k-docs),
   [OpenCity2k/SC2k-docs](https://github.com/OpenCity2k/SC2k-docs) and [OpenSC2K](https://github.com/OpenSC2K/OpenSC2K).
-- SimCity 2000 is © Maxis / Electronic Arts. This project is unofficial and ships none of the game's files.
+- SimCity 2000 is © Maxis / Electronic Arts. This project is unofficial. The tile sets in `dist/` contain
+  recoloured versions of the game's own sprites; no game files themselves are included.

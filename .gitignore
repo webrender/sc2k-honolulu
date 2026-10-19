@@ -6,7 +6,7 @@ __pycache__/
 # Build output: the city, the tile sets (they embed the game's own sprites) and previews
 build/
 
-# Copies of game files: never commit these
+# Copies of game files: never commit these (the prebuilt tile sets in dist/ are the exception)
 templates/
 backup/
 *.MIF
@@ -14,3 +14,4 @@ backup/
 *.DAT
 *.orig
 DEFAULT.SC2
+!dist/*.MIF
