@@ -1,0 +1,9 @@
+[out:json][timeout:120];
+(
+  way["building:part"](21.238,-157.858,21.332,-157.758);
+  relation["building:part"](21.238,-157.858,21.332,-157.758);
+  way["tourism"="hotel"](21.238,-157.858,21.332,-157.758);
+  node["tourism"="hotel"](21.238,-157.858,21.332,-157.758);
+  relation["type"="building"](21.238,-157.858,21.332,-157.758);
+);
+out body geom;

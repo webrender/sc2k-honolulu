@@ -1,0 +1,16 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Build output: the city, the tile sets (they embed the game's own sprites) and previews
+build/
+
+# Copies of game files: never commit these
+templates/
+backup/
+*.MIF
+*.TIL
+*.DAT
+*.orig
+DEFAULT.SC2

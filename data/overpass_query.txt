@@ -1,0 +1,17 @@
+[out:json][timeout:120];
+(
+  way["highway"~"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|living_street|service)$"](21.238,-157.858,21.332,-157.758);
+  way["natural"="coastline"](21.225,-157.870,21.340,-157.745);
+  way["waterway"](21.238,-157.858,21.332,-157.758);
+  way["natural"="water"](21.238,-157.858,21.332,-157.758);
+  relation["natural"="water"](21.238,-157.858,21.332,-157.758);
+  way["natural"="beach"](21.238,-157.858,21.332,-157.758);
+  way["leisure"~"^(park|golf_course|marina|pitch)$"](21.238,-157.858,21.332,-157.758);
+  relation["leisure"~"^(park|golf_course)$"](21.238,-157.858,21.332,-157.758);
+  way["landuse"](21.238,-157.858,21.332,-157.758);
+  way["building"](21.238,-157.858,21.332,-157.758);
+  relation["building"](21.238,-157.858,21.332,-157.758);
+  way["man_made"~"^(pier|breakwater|groyne)$"](21.238,-157.858,21.332,-157.758);
+  way["natural"~"^(reef|wood|scrub|grassland)$"](21.238,-157.858,21.332,-157.758);
+);
+out body geom;
