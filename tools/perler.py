@@ -222,9 +222,14 @@ def game_palette(game_dir):
 
 
 def slots_of(pal, names, usable=FIXED):
-    """Fixed slots holding any of the named bead colours."""
-    want = np.array([NAMES[n] for n in names])
-    return np.array([s for s in usable if (np.abs(want - pal[s]).sum(1) < 1).any()])
+    """Fixed slots holding any of the named bead colours. In a palette without beads
+    (the game's own, for TROPSTK.MIF), each name gets the slot nearest its colour."""
+    usable = np.asarray(usable)
+    out = set()
+    for n in names:
+        exact = [int(s) for s in usable if np.abs(NAMES[n] - pal[s]).sum() < 1]
+        out.update(exact or [int(usable[np.argmin(dist2(pal[usable], NAMES[n]))])])
+    return np.array(sorted(out))
 
 
 def report(game_dir):

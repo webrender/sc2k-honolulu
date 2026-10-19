@@ -1,6 +1,11 @@
 """TROPICAL.MIF: a tile set for playing ordinary cities with the Waikiki look.
 
-    python tools/play_tileset.py "C:/Users/webre/Documents/SC2K"   # writes build/TROPICAL.MIF
+    python tools/play_tileset.py "C:/Users/webre/Documents/SC2K"   # build/TROPICAL.MIF and build/TROPSTK.MIF
+
+Two versions of the same set:
+  TROPICAL.MIF  drawn in the Perler bead palette; needs patch_game.py --play.
+  TROPSTK.MIF   drawn in the game's own palette, so it works in an unpatched game (with
+                sc2kfix). Colours are the nearest palette entries, not beads.
 
 WAIKIKI.MIF borrows many sprite slots for the diorama (industry shows hotels, rubble shows
 beach towels, radiation shows reef water), so it isn't fit for a game that grows. This
@@ -19,10 +24,9 @@ set keeps every slot meaning what the game means by it, and only changes the loo
       - water in pools, ponds and the marina basin: the sea's azure;
   * the ramps, tunnels and empty zoned land, whose bare ground is tan: grassed over;
   * the rest (rubble, radiation, power lines, rails, bridges, highways, vehicles,
-    disasters, the underground) stays stock, re-pointed to bead slots.
-The coloured zone line round each lot is never touched. The game must be in play mode
-(patch_game.py --play): the diorama's terrain table sends shallow water to slot 5,
-which is radiation here.
+    disasters, the underground) stays stock (in TROPICAL.MIF re-pointed to bead slots).
+The coloured zone line round each lot is never touched. Neither version works in diorama
+mode: its terrain table sends shallow water to slot 5, which is radiation here.
 """
 import colorsys
 import sys
@@ -127,13 +131,18 @@ def footprint(stock, obj):
     return max(1, stock[1000 + obj].shape[1] // 32)
 
 
-def build(game_dir, out=BUILD / "TROPICAL.MIF"):
+def build(game_dir, stock_palette=False):
+    """stock_palette=False: TROPICAL.MIF in the bead palette; True: TROPSTK.MIF in the game's own."""
     game = Path(game_dir)
-    pal = make_mif.read_bmp_palette(game / "BITMAPS" / "PAL_MSTR.BMP")
-    want, _, remap = P.game_palette(game)
-    if not np.allclose(pal[16:246], want[16:246]):
-        sys.exit("PAL_MSTR.BMP isn't the Perler palette yet: run tools/patch_game.py first")
     orig = P.original_palette(game)
+    if stock_palette:
+        out, pal, remap = BUILD / "TROPSTK.MIF", orig, np.arange(256)    # nothing to re-point
+    else:
+        out = BUILD / "TROPICAL.MIF"
+        pal = make_mif.read_bmp_palette(game / "BITMAPS" / "PAL_MSTR.BMP")
+        want, _, remap = P.game_palette(game)
+        if not np.allclose(pal[16:246], want[16:246]):
+            sys.exit("PAL_MSTR.BMP isn't the Perler palette yet: run tools/patch_game.py first")
     usable = make_mif.USABLE
     template = (game / "SCURKART" / "TILESET1.MIF").read_bytes()
     info, tmpl = make_mif.read_pieces(template)
@@ -199,14 +208,13 @@ def build(game_dir, out=BUILD / "TROPICAL.MIF"):
     make_mif.verify(data, layout, ours, kept)
     out.write_bytes(data)
     print(f"wrote {out} ({len(data)} bytes, {len(ours)} sprites)")
-    contact_sheets(stock, ours, orig, pal)
+    contact_sheets(stock, ours, orig, pal, BUILD / ("tropstk_review" if stock_palette else "tropical_review"))
     return ours
 
 
-def contact_sheets(stock, ours, orig, pal, cols=8):
+def contact_sheets(stock, ours, orig, pal, d, cols=8):
     """build/tropical_review/: each building, stock beside recoloured, large zoom."""
     from PIL import ImageDraw
-    d = BUILD / "tropical_review"
     d.mkdir(exist_ok=True)
 
     def img(px, p):
@@ -243,3 +251,4 @@ if __name__ == "__main__":
     if len(sys.argv) < 2:
         sys.exit(__doc__)
     build(sys.argv[1])
+    build(sys.argv[1], stock_palette=True)

@@ -8,10 +8,11 @@ The game must be closed. It needs SimCity 2000 Special Edition for Windows 95 wi
 The first two forms:
   1. patch SIMCITY.EXE's terrain table for the chosen mode and BITMAPS/PAL_MSTR.BMP to the
      Perler palette (patch_game.py; both files are backed up to *.orig first);
-  2. build the city and both tile sets from the game's own art (make_all.py, play_tileset.py);
-  3. copy WAIKIKI.SC2 to CITIES/, and WAIKIKI.MIF and TROPICAL.MIF to SCURKART/.
+  2. build the city and the tile sets from the game's own art (make_all.py, play_tileset.py);
+  3. copy WAIKIKI.SC2 to CITIES/, and WAIKIKI.MIF, TROPICAL.MIF and TROPSTK.MIF to SCURKART/.
 Switching mode later only needs patch_game.py (step 1). --restore undoes step 1 and
-leaves the copied files, which do nothing until you load them.
+leaves the copied files, which do nothing until you load them. TROPSTK.MIF is the one set
+meant for the restored (unpatched) game.
 """
 import shutil
 import subprocess
@@ -43,7 +44,7 @@ def main(argv):
     run("make_all.py", str(game))
     run("play_tileset.py", str(game))
     for src, dst in ((BUILD / "WAIKIKI.SC2", game / "CITIES"), (BUILD / "WAIKIKI.MIF", game / "SCURKART"),
-                     (BUILD / "TROPICAL.MIF", game / "SCURKART")):
+                     (BUILD / "TROPICAL.MIF", game / "SCURKART"), (BUILD / "TROPSTK.MIF", game / "SCURKART")):
         shutil.copy2(src, dst / src.name)
         print(f"copied {src.name} -> {dst}")
     if play:

@@ -19,7 +19,8 @@ piece.
   - St. Augustine by the Sea, and the Hawaiian homes.
   - Pastel towers, palm-lined streets, green lots and tropical water, all drawn in SimCity 2000's pixel-art
     style.
-- **The play tile set** (`TROPICAL.MIF`): the same tropical look for *any* city you play.
+- **The play tile set** (`TROPICAL.MIF`, or `TROPSTK.MIF` for an unpatched game): the same tropical look
+  for *any* city you play.
   - Palms and shade trees, flower- and tree-lined roads, green land and Hawaiian homes.
   - The game's own buildings recoloured in soft pastels on green lots.
   - Every building is still what the game says it is, so cities grow normally.
@@ -79,20 +80,37 @@ down and redevelop them. To show the landmarks, the diorama tile set redraws som
 .venv/Scripts/python tools/install.py "C:/Games/SC2K" --play
 ```
 
-Open or start any city, then load `SCURKART\TROPICAL.MIF` from the tile-set menu.
+Open or start any city, then load `SCURKART\TROPICAL.MIF` from the tile-set menu. (`TROPSTK.MIF` is installed
+too, but it's for an unpatched game: with the bead palette its colours are wrong.)
 
-### Quick install of the play tile set
+### Quick install, no patching: TROPSTK.MIF
 
-To try `TROPICAL.MIF` without building anything, copy the prebuilt file from `dist/` into the game's `SCURKART`
-folder. Then apply the bead palette and play mode, with the game closed:
+The simplest way to try the tropical look is `dist/TROPSTK.MIF`, a version of the play tile set drawn in the
+game's own palette:
+
+1. Copy `dist/TROPSTK.MIF` into the game's `SCURKART` folder.
+2. Open any city and load `TROPSTK.MIF` from the tile-set menu.
+
+It needs no patch, no Python and no build, only sc2kfix (which loads the terrain, water and tree sprites).
+Because it uses the game's palette rather than beads, its colours are a little stronger: brick comes out coral
+rather than pink, and lawns a slightly yellower green.
+
+It needs the game's original palette and terrain table. If you've run the installer or `patch_game.py`,
+undo that first with `install.py --restore`.
+
+### Quick install of the bead-palette play set: TROPICAL.MIF
+
+`dist/TROPICAL.MIF` is the same set in Perler bead colours. Copy it into `SCURKART`, then apply the bead
+palette and play mode, with the game closed:
 
 ```bash
 .venv/Scripts/python tools/patch_game.py "C:/Games/SC2K" --play
 ```
 
+Without that palette its colours are wrong: some pink buildings turn bright blue.
+
 `dist/WAIKIKI.MIF` is there too, but the diorama also needs the city, `WAIKIKI.SC2`, which the installer
-builds. Both prebuilt sets are drawn for the bead palette `patch_game.py` writes from the Windows 95 Special
-Edition's own palette. Without that palette, their colours are wrong.
+builds. It also needs the bead palette.
 
 ### Switching between the two
 
@@ -131,7 +149,7 @@ Keep `weather_effects` set to `false` in `settings.json` (sc2kfix's settings) wh
 .venv/Scripts/python tools/geo.py                                   # only after changing the map frame or OSM data
 .venv/Scripts/python tools/patch_game.py "C:/Games/SC2K"            # after palette or water-table changes
 .venv/Scripts/python tools/make_all.py "C:/Games/SC2K"              # city, sprites, checks, WAIKIKI.MIF
-.venv/Scripts/python tools/play_tileset.py "C:/Games/SC2K"          # TROPICAL.MIF
+.venv/Scripts/python tools/play_tileset.py "C:/Games/SC2K"          # TROPICAL.MIF and TROPSTK.MIF
 .venv/Scripts/python tools/preview_game.py "C:/Games/SC2K"          # render the city as the game draws it
 .venv/Scripts/python tools/check_beads.py                           # every pixel must be a Perler bead
 ```

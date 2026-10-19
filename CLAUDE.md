@@ -38,7 +38,7 @@ After every change:
 **Two modes.** The diorama (WAIKIKI.MIF) needs the patched terrain table. Playing any other city with
 `TROPICAL.MIF` needs play mode: `tools/patch_game.py <game> --play`. Check `patch_game.mode()` before
 launching, and switch only with the game closed. After changing shared art (terrain, trees, roads, homes,
-palette), rebuild both sets: `make_all.py` and `play_tileset.py`. Install both MIFs, and copy them to
+palette), rebuild the sets: `make_all.py` and `play_tileset.py` (TROPICAL and TROPSTK). Install the MIFs, and copy them to
 `dist/` (the prebuilt sets in the repository).
 
 Only edit `SC2K\settings.json` while the game is closed. sc2kfix rewrites it on exit. `weather_effects` stays
